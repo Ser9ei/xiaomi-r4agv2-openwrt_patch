@@ -32,11 +32,6 @@
 +++ b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-4a-gigabit-v2.dts	2022-12-16 03:01:10.948248917 +0400
 @@ -0,0 +1,194 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+//		wan {
-+//			label = "blue:wan";
-+//			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
-+//		};
-+
 +#include "mt7621.dtsi"
 +
 +#include <dt-bindings/gpio/gpio.h>
