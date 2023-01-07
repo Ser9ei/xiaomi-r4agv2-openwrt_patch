@@ -1,35 +1,16 @@
---- a/include/kernel-defaults.mk	2022-10-15 16:45:57.000000000 +0400
-+++ b/include/kernel-defaults.mk	2022-12-09 19:35:00.794999493 +0400
-@@ -118,7 +118,8 @@
- 		cp $(LINUX_DIR)/.config.set $(LINUX_DIR)/.config.prev; \
+--- a/include/kernel-defaults.mk	2023-01-04 01:03:37.000000000 +0400
++++ b/include/kernel-defaults.mk	2023-01-07 20:50:25.832841866 +0400
+@@ -119,6 +119,8 @@
  	}
  	$(_SINGLE) [ -d $(LINUX_DIR)/user_headers ] || $(KERNEL_MAKE) INSTALL_HDR_PATH=$(LINUX_DIR)/user_headers headers_install
--	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | $(MKHASH) md5 > $(LINUX_DIR)/.vermagic
+ 	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | $(MKHASH) md5 > $(LINUX_DIR)/.vermagic
 +#	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | $(MKHASH) md5 > $(LINUX_DIR)/.vermagic
-+	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | echo c91e62db69d188afca1b6cc5c9e1b72d > $(LINUX_DIR)/.vermagic
++	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | echo 2974fbe1fa59be88f13eb8abeac8c10b > $(LINUX_DIR)/.vermagic
  endef
  
  define Kernel/Configure/Initramfs
---- a/target/linux/generic/pending-5.10/476-mtd-spi-nor-add-eon-en25q128.patch	2022-10-15 16:45:57.000000000 +0400
-+++ b/target/linux/generic/pending-5.10/476-mtd-spi-nor-add-eon-en25q128.patch	2022-12-13 03:37:30.701668932 +0400
-@@ -8,11 +8,12 @@
- 
- --- a/drivers/mtd/spi-nor/eon.c
- +++ b/drivers/mtd/spi-nor/eon.c
--@@ -15,6 +15,7 @@ static const struct flash_info eon_parts
-+@@ -15,6 +15,8 @@ static const struct flash_info eon_parts
-  	{ "en25q32b",   INFO(0x1c3016, 0, 64 * 1024,   64, 0) },
-  	{ "en25p64",    INFO(0x1c2017, 0, 64 * 1024,  128, 0) },
-  	{ "en25q64",    INFO(0x1c3017, 0, 64 * 1024,  128, SECT_4K) },
- +	{ "en25q128",   INFO(0x1c3018, 0, 64 * 1024,  256, SECT_4K) },
-++	{ "en25qx128",  INFO(0x1c7118, 0, 64 * 1024,  256, SECT_4K) },
-  	{ "en25q80a",   INFO(0x1c3014, 0, 64 * 1024,   16,
-  			     SECT_4K | SPI_NOR_DUAL_READ) },
-- 	{ "en25qh16",   INFO(0x1c7015, 0, 64 * 1024,   32,
-+ 	{ "en25qh16",   INFO(0x1c7015, 0, 64 * 1024,   32,
-\ No newline at end of file
 --- a/target/linux/ramips/dts/mt7621_xiaomi_mi-router-4a-gigabit-v2.dts	1970-01-01 04:00:00.000000000 +0400
-+++ b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-4a-gigabit-v2.dts	2022-12-17 04:27:21.334200808 +0400
++++ b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-4a-gigabit-v2.dts	2022-12-17 04:27:21.334200000 +0400
 @@ -0,0 +1,189 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +#include "mt7621.dtsi"
@@ -220,9 +201,9 @@
 +		reg = <0xe006 0x6>;
 +	};
 +};
---- a/target/linux/ramips/image/mt7621.mk	2022-10-15 16:45:57.000000000 +0400
-+++ b/target/linux/ramips/image/mt7621.mk	2022-12-09 20:23:39.993927472 +0400
-@@ -1993,6 +1993,17 @@
+--- a/target/linux/ramips/image/mt7621.mk	2023-01-04 01:03:37.000000000 +0400
++++ b/target/linux/ramips/image/mt7621.mk	2023-01-07 20:54:46.275004545 +0400
+@@ -2011,6 +2011,17 @@
  endef
  TARGET_DEVICES += xiaomi_mi-router-4a-gigabit
  
@@ -240,9 +221,9 @@
  define Device/xiaomi_mi-router-ac2100
    $(Device/xiaomi_nand_separate)
    DEVICE_MODEL := Mi Router AC2100
---- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network	2022-10-15 16:45:57.000000000 +0400
-+++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network	2022-12-09 20:26:52.253196706 +0400
-@@ -57,7 +57,8 @@
+--- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network	2023-01-04 01:03:37.000000000 +0400
++++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network	2023-01-07 20:57:05.249479798 +0400
+@@ -58,7 +58,8 @@
  	xiaomi,mi-router-3g|\
  	xiaomi,mi-router-3g-v2|\
  	xiaomi,mi-router-4|\
@@ -252,8 +233,8 @@
  		ucidef_set_interfaces_lan_wan "lan1 lan2" "wan"
  		;;
  	bolt,arion)
---- a/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds	2022-10-15 16:45:57.000000000 +0400
-+++ b/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds	2022-12-16 06:32:39.851884000 +0400
+--- a/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds	2023-01-04 01:03:37.000000000 +0400
++++ b/target/linux/ramips/mt7621/base-files/etc/board.d/01_leds	2023-01-07 20:57:39.802062127 +0400
 @@ -132,6 +132,9 @@
  tplink,tl-wpa8631p-v3)
  	ucidef_set_led_netdev "lan" "LAN" "green:lan" "br-lan"
