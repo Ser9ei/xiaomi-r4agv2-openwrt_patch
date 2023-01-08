@@ -1,9 +1,10 @@
 --- a/include/kernel-defaults.mk	2023-01-04 01:03:37.000000000 +0400
 +++ b/include/kernel-defaults.mk	2023-01-07 20:50:25.832841866 +0400
-@@ -119,6 +119,8 @@
+@@ -118,7 +118,8 @@
+ 		cp $(LINUX_DIR)/.config.set $(LINUX_DIR)/.config.prev; \
  	}
  	$(_SINGLE) [ -d $(LINUX_DIR)/user_headers ] || $(KERNEL_MAKE) INSTALL_HDR_PATH=$(LINUX_DIR)/user_headers headers_install
- 	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | $(MKHASH) md5 > $(LINUX_DIR)/.vermagic
+-	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | $(MKHASH) md5 > $(LINUX_DIR)/.vermagic
 +#	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | $(MKHASH) md5 > $(LINUX_DIR)/.vermagic
 +	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | echo 2974fbe1fa59be88f13eb8abeac8c10b > $(LINUX_DIR)/.vermagic
  endef
